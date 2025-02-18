@@ -1,3 +1,250 @@
 #include "Person.h"
 
 // Person Member Functions
+std::set<Person*> betterAncestors(Person* p);
+Person::Person(std::string n, std::string g, Person* m, Person* f){
+	pname = n;
+	pmother = m;
+	pfather = f;
+	if(g == "male"){
+		pgender = Gender::MALE;
+	}
+	else if(g == "female"){
+		pgender = Gender::FEMALE;
+	}
+	else{
+		pgender = Gender::ANY;	
+	}
+}
+
+
+const std::string& Person::name() const{
+	return pname;
+}
+Gender Person::gender() const{
+	return pgender;
+}
+
+Person* Person::mother(){
+	return pmother;
+}
+
+Person* Person::father(){
+	return pfather;
+}
+
+std::set<Person*> Person::parents(PMod pmod){
+	std::set<Person*> par;
+	if(pmod == PMod::MATERNAL){
+		par.insert(pmother);
+	}
+	else if(pmod == PMod::PATERNAL){
+		par.insert(pfather);
+	}
+	else{
+		par.insert(pmother);
+		par.insert(pfather);
+	}
+	return par;
+}
+
+std::set<Person*> Person::children(){
+	std::set<Person*> kids;
+	return kids;
+}
+std::set<Person*> Person::grandparents(PMod pmod){
+	std::set<Person*> gp;
+	if(pmod == PMod::PATERNAL){
+		 std::set<Person*> pp;
+		 if(father() != nullptr){
+		 pp = father()->parents(PMod::ANY);
+		 }
+		 gp = pp;
+	}
+	else if (pmod == PMod::MATERNAL){
+		std::set<Person*> mp;
+		if(mother() != nullptr){
+		mp = mother()->parents(PMod::ANY);
+		}
+		gp = mp;
+	}
+	else{
+		std::set<Person*> pp;
+		if(father() != nullptr){
+                pp = father()->parents(PMod::ANY);
+		}
+		std::set<Person*> mp;
+                if(mother() != nullptr){
+		mp = mother()->parents(PMod::ANY);
+		}
+		pp.merge(mp);
+		gp = pp;
+	}
+	return gp;
+}
+std::set<Person*> Person::ancestors(PMod pmod){
+	std::set<Person*> a;
+	if(pmod == PMod::PATERNAL){
+		if(father() != nullptr){
+		a = betterAncestors(father());
+		}
+	}
+	else if(pmod == PMod::MATERNAL){
+		if(mother() != nullptr){
+		 a = betterAncestors(mother());
+		}
+	}
+	else{
+		std::set<Person*> fa;
+		std::set<Person*> ma;
+		if(father() != nullptr){
+			fa = betterAncestors(father());
+		}
+		if(mother() != nullptr){
+			ma = betterAncestors(mother());
+		}
+		a.merge(fa);
+		a.merge(ma);
+	}
+        return a;
+}
+
+std::set<Person*> betterAncestors(Person* p){
+	std::set<Person*> an;
+	if(p->father() == nullptr && p->mother() == nullptr){
+	an.insert(p);
+	}
+	else if(p->father() == nullptr && p->mother() != nullptr){
+		an.merge(betterAncestors(p->mother()));
+		an.insert(p);
+	}
+	else if(p->father() != nullptr && p->mother() == nullptr){
+		an.merge(betterAncestors(p->father()));
+		an.insert(p);
+	}
+	else{
+		an.merge(betterAncestors(p->mother()));
+		an.merge(betterAncestors(p->father()));
+		an.insert(p);
+	}
+	return an;
+}
+
+std::set<Person*> Person::aunts(PMod pmod, SMod smod){
+	std::set<Person*> stub;
+        return stub;
+}
+
+std::set<Person*> Person::brothers(PMod pmod, SMod smod){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::cousins(PMod pmod, SMod smod){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::daughters(){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::descendants(){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::grandchildren(){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::granddaughters(){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::grandfathers(PMod pmod){
+	std::set<Person*> gf;
+        if(pmod == PMod::PATERNAL){
+                 std::set<Person*> pp;
+                 if(father() != nullptr){
+                 pp = father()->parents(PMod::PATERNAL);
+                 }
+                 gf = pp;
+        }
+        else if (pmod == PMod::MATERNAL){
+                std::set<Person*> mp;
+                if(mother() != nullptr){
+                mp = mother()->parents(PMod::PATERNAL);
+                }
+                gf = mp;
+        }
+        else{
+                std::set<Person*> pp;
+                if(father() != nullptr){
+                pp = father()->parents(PMod::PATERNAL);
+                }
+                std::set<Person*> mp;
+                if(mother() != nullptr){
+                mp = mother()->parents(PMod::PATERNAL);
+                }
+                pp.merge(mp);
+                gf = pp;
+        }
+        return gf;
+}
+std::set<Person*> Person::grandmothers(PMod pmod){
+	std::set<Person*> gm;
+        if(pmod == PMod::PATERNAL){
+                 std::set<Person*> pp;
+                 if(father() != nullptr){
+                 pp = father()->parents(PMod::MATERNAL);
+                 }
+                 gm = pp;
+        }
+        else if (pmod == PMod::MATERNAL){
+                std::set<Person*> mp;
+                if(mother() != nullptr){
+                mp = mother()->parents(PMod::MATERNAL);
+                }
+                gm = mp;
+        }
+        else{
+                std::set<Person*> pp;
+                if(father() != nullptr){
+                pp = father()->parents(PMod::MATERNAL);
+                }
+                std::set<Person*> mp;
+                if(mother() != nullptr){
+                mp = mother()->parents(PMod::MATERNAL);
+                }
+                pp.merge(mp);
+                gm = pp;
+        }
+        return gm;
+}
+std::set<Person*> Person::grandsons(){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::nephews(PMod pmod, SMod smod){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::nieces(PMod pmod, SMod smod){
+	std::set<Person*> stub;
+        return stub;
+
+}
+std::set<Person*> Person::siblings(PMod pmod, SMod smod){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::sisters(PMod pmod, SMod smod){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::sons(){
+	std::set<Person*> stub;
+        return stub;
+}
+std::set<Person*> Person::uncles(PMod pmod, SMod smod){
+	std::set<Person*> stub;
+        return stub;
+}
