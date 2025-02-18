@@ -37,7 +37,15 @@ GenePool::GenePool(std::istream& stream){
 			else if(name == "" || gender == "" || mom == "" || dad ==""){
 				throw(std::invalid_argument("missing arguements"));
 			}
-			family[name] = new Person(name, gender, find(mom), find(dad));
+			Person* foundMom = find(mom);
+			Person* foundDad = find(dad);
+			family[name] = new Person(name, gender, foundMom, foundDad);
+			if(foundMom != nullptr){
+			foundMom->addChild(family[name]);
+			}
+			if(foundDad != nullptr){
+			foundDad->addChild(family[name]);
+			}
 		}
 	}
 	}

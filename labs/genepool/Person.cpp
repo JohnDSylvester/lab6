@@ -17,6 +17,9 @@ Person::Person(std::string n, std::string g, Person* m, Person* f){
 	}
 }
 
+void Person::addChild(Person* p){
+	pchildren.insert(p);
+}
 
 const std::string& Person::name() const{
 	return pname;
@@ -36,21 +39,28 @@ Person* Person::father(){
 std::set<Person*> Person::parents(PMod pmod){
 	std::set<Person*> par;
 	if(pmod == PMod::MATERNAL){
-		par.insert(pmother);
+		if(mother() != nullptr){
+		par.insert(mother());
+		}
 	}
 	else if(pmod == PMod::PATERNAL){
-		par.insert(pfather);
+		if(father() != nullptr){
+		par.insert(father());
+		}
 	}
 	else{
-		par.insert(pmother);
-		par.insert(pfather);
+		if(mother() != nullptr){
+		par.insert(mother());
+		}
+		if(father() != nullptr){
+		par.insert(father());
+		}
 	}
 	return par;
 }
 
 std::set<Person*> Person::children(){
-	std::set<Person*> kids;
-	return kids;
+	return pchildren;
 }
 std::set<Person*> Person::grandparents(PMod pmod){
 	std::set<Person*> gp;
@@ -144,20 +154,32 @@ std::set<Person*> Person::cousins(PMod pmod, SMod smod){
         return stub;
 }
 std::set<Person*> Person::daughters(){
-	std::set<Person*> stub;
-        return stub;
+	std::set<Person*> d;
+        for(auto child: pchildren){
+                if(child->gender() == Gender::FEMALE){
+                d.insert(child);
+                }
+        }
+        return d;
 }
 std::set<Person*> Person::descendants(){
 	std::set<Person*> stub;
         return stub;
 }
 std::set<Person*> Person::grandchildren(){
-	std::set<Person*> stub;
-        return stub;
+	std::set<Person*> gc;
+	for(auto child: pchildren){
+		gc.merge(child->children());
+	}
+	return gc;
 }
+
 std::set<Person*> Person::granddaughters(){
-	std::set<Person*> stub;
-        return stub;
+	std::set<Person*> gd;
+        for(auto child: pchildren){
+                gd.merge(child->daughters());
+        }
+        return gd;
 }
 std::set<Person*> Person::grandfathers(PMod pmod){
 	std::set<Person*> gf;
@@ -220,8 +242,11 @@ std::set<Person*> Person::grandmothers(PMod pmod){
         return gm;
 }
 std::set<Person*> Person::grandsons(){
-	std::set<Person*> stub;
-        return stub;
+	std::set<Person*> gs;
+        for(auto child: pchildren){
+                gs.merge(child->sons());
+        }
+        return gs;
 }
 std::set<Person*> Person::nephews(PMod pmod, SMod smod){
 	std::set<Person*> stub;
@@ -241,8 +266,13 @@ std::set<Person*> Person::sisters(PMod pmod, SMod smod){
         return stub;
 }
 std::set<Person*> Person::sons(){
-	std::set<Person*> stub;
-        return stub;
+	std::set<Person*> s;
+	for(auto child: pchildren){
+		if(child->gender() == Gender::MALE){
+		s.insert(child);
+		}
+	}	
+        return s;
 }
 std::set<Person*> Person::uncles(PMod pmod, SMod smod){
 	std::set<Person*> stub;
