@@ -37,28 +37,6 @@ Person* Person::father(){
 }
 
 std::set<Person*> Person::parents(PMod pmod){
-<<<<<<< HEAD
-	std::set<Person*> par;
-	if(pmod == PMod::MATERNAL){
-		if(mother() != nullptr){
-		par.insert(mother());
-		}
-	}
-	else if(pmod == PMod::PATERNAL){
-		if(father() != nullptr){
-		par.insert(father());
-		}
-	}
-	else{
-		if(mother() != nullptr){
-		par.insert(mother());
-		}
-		if(father() != nullptr){
-		par.insert(father());
-		}
-	}
-	return par;
-=======
         std::set<Person*> par;
         if(pmod == PMod::MATERNAL){
                 if(mother() != nullptr){
@@ -79,7 +57,6 @@ std::set<Person*> Person::parents(PMod pmod){
                 }
         }
         return par;
->>>>>>> d6d59ed251acc5e1ba357b07c22c315773a08ea0
 }
 
 std::set<Person*> Person::children(){
