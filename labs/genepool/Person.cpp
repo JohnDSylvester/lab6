@@ -162,10 +162,16 @@ std::set<Person*> Person::daughters(){
         }
         return d;
 }
+
 std::set<Person*> Person::descendants(){
-	std::set<Person*> stub;
-        return stub;
+        std::set<Person*> d;
+        for(auto child: pchildren){
+                d.insert(child);
+                d.merge(child->descendants());
+        }
+        return d;
 }
+
 std::set<Person*> Person::grandchildren(){
 	std::set<Person*> gc;
 	for(auto child: pchildren){
