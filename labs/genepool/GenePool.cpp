@@ -39,10 +39,10 @@ GenePool::GenePool(std::istream& stream){
 			Person* foundDad = find(dad);
 			family[name] = new Person(name, gender, foundMom, foundDad);
 			if(foundMom != nullptr){
-			foundMom->addChild(family[name]);
+				foundMom->addChild(family[name]);
 			}
 			if(foundDad != nullptr){
-			foundDad->addChild(family[name]);
+				foundDad->addChild(family[name]);
 			}
 		}
 	}
