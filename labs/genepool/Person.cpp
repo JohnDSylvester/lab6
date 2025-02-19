@@ -197,8 +197,34 @@ std::set<Person*> Person::brothers(PMod pmod, SMod smod){
 }
 
 std::set<Person*> Person::cousins(PMod pmod, SMod smod){
-	std::set<Person*> stub;
-        return stub;
+	std::set<Person*> ms;
+        std::set<Person*> ds;
+        std::set<Person*> ps;
+        std::set<Person*> cousins;
+        if(pmod == PMod::PATERNAL){
+                if(father() != nullptr){
+                ds = father()->siblings(PMod::ANY,smod);
+                }
+        }
+        else if(pmod == PMod::MATERNAL){
+                if(mother() != nullptr){
+                ms = mother()->siblings(PMod::ANY,smod);
+                }
+        }
+        else{
+                if(father() != nullptr){
+                ds = father()->siblings(PMod::ANY,smod);
+                }
+                if(mother() != nullptr){
+                ms = mother()->siblings(PMod::ANY,smod);
+                }
+        }
+        ps.merge(ms);
+        ps.merge(ds);
+        for(auto person: ps){
+                cousins.merge(person->children());
+        }
+        return cousins;
 }
 std::set<Person*> Person::daughters(){
 	std::set<Person*> d;
