@@ -280,13 +280,22 @@ std::set<Person*> Person::grandsons(){
         return gs;
 }
 std::set<Person*> Person::nephews(PMod pmod, SMod smod){
-	std::set<Person*> stub;
-        return stub;
+        std::set<Person*> family;
+        std::set<Person*> nephews;
+        family = siblings(pmod,smod);
+        for(auto sibling: family){
+                nephews.merge(sibling->sons());
+        }
+        return nephews;
 }
 std::set<Person*> Person::nieces(PMod pmod, SMod smod){
-	std::set<Person*> stub;
-        return stub;
-
+        std::set<Person*> family;
+        std::set<Person*> nieces;
+        family = siblings(pmod,smod);
+        for(auto sibling: family){
+                nieces.merge(sibling->daughters());
+        }
+        return nieces;
 }
 std::set<Person*> Person::siblings(PMod pmod, SMod smod){
         std::set<Person*> momKids;
