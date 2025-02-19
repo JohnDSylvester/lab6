@@ -1,4 +1,4 @@
-#include "Person.h"
+	#include "Person.h"
 
 // Person Member Functions
 std::set<Person*> betterAncestors(Person* p);
@@ -142,8 +142,30 @@ std::set<Person*> betterAncestors(Person* p){
 }
 
 std::set<Person*> Person::aunts(PMod pmod, SMod smod){
-	std::set<Person*> stub;
-        return stub;
+	std::set<Person*> ma;
+        std::set<Person*> da;
+        std::set<Person*> aunt;
+        if(pmod == PMod::PATERNAL){
+                if(father() != nullptr){
+                da = father()->sisters(PMod::ANY,smod);
+                }
+        }
+        else if(pmod == PMod::MATERNAL){
+                if(mother() != nullptr){
+                ma = mother()->sisters(PMod::ANY,smod);
+                }
+        }
+        else{
+                if(father() != nullptr){
+                da = father()->sisters(PMod::ANY,smod);
+                }
+                if(mother() != nullptr){
+                ma = mother()->sisters(PMod::ANY,smod);
+                }
+        }
+        aunt.merge(ma);
+        aunt.merge(da);
+        return aunt;
 }
 
 std::set<Person*> Person::brothers(PMod pmod, SMod smod){
@@ -392,6 +414,28 @@ std::set<Person*> Person::sons(){
         return s;
 }
 std::set<Person*> Person::uncles(PMod pmod, SMod smod){
-	std::set<Person*> stub;
-        return stub;
+	std::set<Person*> mb;
+        std::set<Person*> db;
+        std::set<Person*> unc;
+        if(pmod == PMod::PATERNAL){
+                if(father() != nullptr){
+                db = father()->brothers(PMod::ANY,smod);
+                }
+        }
+        else if(pmod == PMod::MATERNAL){
+                if(mother() != nullptr){
+                mb = mother()->brothers(PMod::ANY,smod);
+                }
+        }
+        else{
+                if(father() != nullptr){
+                db = father()->brothers(PMod::ANY,smod);
+                }
+                if(mother() != nullptr){
+                mb = mother()->brothers(PMod::ANY,smod);
+                }
+        }
+        unc.merge(mb);
+        unc.merge(db);
+        return unc;
 }
