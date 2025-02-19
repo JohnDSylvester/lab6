@@ -2,6 +2,7 @@
 
 // Person Member Functions
 std::set<Person*> betterAncestors(Person* p);
+std::set<Person*> halfCheck(std::set<Person*> people, std::string name, Person* f, Person* m, SMod smod);
 Person::Person(std::string n, std::string g, Person* m, Person* f){
 	pname = n;
 	pmother = m;
@@ -146,9 +147,33 @@ std::set<Person*> Person::aunts(PMod pmod, SMod smod){
 }
 
 std::set<Person*> Person::brothers(PMod pmod, SMod smod){
-	std::set<Person*> stub;
-        return stub;
+        std::set<Person*> momKids;
+        std::set<Person*> dadKids;
+        std::set<Person*> son;
+        if(pmod == PMod::PATERNAL){
+                if(father() != nullptr){
+                dadKids = father()->sons();
+                }
+        }
+        else if(pmod == PMod::MATERNAL){
+                if(mother() != nullptr){
+                momKids = mother()->sons();
+                }
+        }
+        else{
+                if(father() != nullptr){
+                dadKids = father()->sons();
+                }
+                if(mother() != nullptr){
+                momKids = mother()->sons();
+                }
+        }
+        son.merge(dadKids);
+        son.merge(momKids);
+        son = halfCheck(son, name(), father(), mother(), smod);
+        return son;
 }
+
 std::set<Person*> Person::cousins(PMod pmod, SMod smod){
 	std::set<Person*> stub;
         return stub;
@@ -264,13 +289,90 @@ std::set<Person*> Person::nieces(PMod pmod, SMod smod){
 
 }
 std::set<Person*> Person::siblings(PMod pmod, SMod smod){
-	std::set<Person*> stub;
-        return stub;
+        std::set<Person*> momKids;
+        std::set<Person*> dadKids;
+        std::set<Person*> sibs;
+        if(pmod == PMod::PATERNAL){
+                if(father() != nullptr){
+                dadKids = father()->children();
+                }
+        }
+        else if(pmod == PMod::MATERNAL){
+                if(mother() != nullptr){
+                momKids = mother()->children();
+                }
+        }
+        else{
+                if(father() != nullptr){
+                dadKids = father()->children();
+                }
+                if(mother() != nullptr){
+                momKids = mother()->children();
+                }
+        }
+        sibs.merge(dadKids);
+        sibs.merge(momKids);
+        sibs = halfCheck(sibs, name(), father(), mother(), smod);
+        return sibs;
 }
+
+std::set<Person*> halfCheck(std::set<Person*> people, std::string name, Person* f, Person* m, SMod smod){
+        std::set<Person*> newSiblings;
+        if(smod == SMod::HALF){
+        for(auto sibling: people){
+                if(f != nullptr && f == sibling->father() && m != sibling->mother()){
+                        newSiblings.insert(sibling);
+                }
+                if(m != nullptr && f != sibling->father() && m == sibling->mother()){
+                        newSiblings.insert(sibling);
+                }
+        }
+        }
+        else if(smod == SMod::FULL){
+        for(auto sibling: people){
+                if(sibling->name() != name && f != nullptr && m != nullptr && f == sibling->father() && m == sibling->mother()){
+                        newSiblings.insert(sibling);
+                }
+        }
+        }
+        else{
+        for(auto sibling: people){
+                if(sibling->name() != name){
+                        newSiblings.insert(sibling);
+                }
+        }
+        }
+        return newSiblings;
+}
+
 std::set<Person*> Person::sisters(PMod pmod, SMod smod){
-	std::set<Person*> stub;
-        return stub;
+        std::set<Person*> momKids;
+        std::set<Person*> dadKids;
+        std::set<Person*> sis;
+        if(pmod == PMod::PATERNAL){
+                if(father() != nullptr){
+                dadKids = father()->daughters();
+                }
+        }
+        else if(pmod == PMod::MATERNAL){
+                if(mother() != nullptr){
+                momKids = mother()->daughters();
+                }
+        }
+        else{
+                if(father() != nullptr){
+                dadKids = father()->daughters();
+                }
+                if(mother() != nullptr){
+                momKids = mother()->daughters();
+                }
+        }
+        sis.merge(dadKids);
+        sis.merge(momKids);
+        sis = halfCheck(sis, name(), father(), mother(), smod);
+        return sis;
 }
+
 std::set<Person*> Person::sons(){
 	std::set<Person*> s;
 	for(auto child: pchildren){
