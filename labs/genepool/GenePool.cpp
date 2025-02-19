@@ -1,5 +1,4 @@
 #include "GenePool.h"
-#include <iostream>
 #include <stdexcept>
 
 // GenePool Member Functions
@@ -30,7 +29,6 @@ GenePool::GenePool(std::istream& stream){
 			gender = section(line, iterator);
 			mom = section(line, iterator);
 			dad = section(line, iterator);
-			//std::cout << name << " " << gender << " " << mom << " " << dad << "\n";
 			if(gender != "male" && gender != "female"){
 				throw(std::invalid_argument("wrong gender"));
 			}
