@@ -4,7 +4,7 @@
 std::set<Person*> betterAncestors(Person* p);
 std::set<Person*> halfCheck(std::set<Person*> people, std::string name, Person* f, Person* m, SMod smod);
 
-Person(){
+Person::Person(){
 	pname = "";
 	pgender = Gender::ANY;
 	pmother = nullptr;
