@@ -49,20 +49,20 @@ std::set<Person*> Person::parents(PMod pmod){
         std::set<Person*> par;
         if(pmod == PMod::MATERNAL){
                 if(mother() != nullptr){
-                par.insert(mother());
+                	par.insert(mother());
                 }
         }
         else if(pmod == PMod::PATERNAL){
                 if(father() != nullptr){
-                par.insert(father());
+                	par.insert(father());
                 }
         }
         else{
                 if(mother() != nullptr){
-                par.insert(mother());
+                	par.insert(mother());
                 }
                 if(father() != nullptr){
-                par.insert(father());
+                	par.insert(father());
                 }
         }
         return par;
@@ -76,25 +76,25 @@ std::set<Person*> Person::grandparents(PMod pmod){
 	if(pmod == PMod::PATERNAL){
 		 std::set<Person*> pp;
 		 if(father() != nullptr){
-		 pp = father()->parents(PMod::ANY);
+		 	pp = father()->parents(PMod::ANY);
 		 }
 		 gp = pp;
 	}
 	else if (pmod == PMod::MATERNAL){
 		std::set<Person*> mp;
 		if(mother() != nullptr){
-		mp = mother()->parents(PMod::ANY);
+			mp = mother()->parents(PMod::ANY);
 		}
 		gp = mp;
 	}
 	else{
 		std::set<Person*> pp;
 		if(father() != nullptr){
-                pp = father()->parents(PMod::ANY);
+                	pp = father()->parents(PMod::ANY);
 		}
 		std::set<Person*> mp;
                 if(mother() != nullptr){
-		mp = mother()->parents(PMod::ANY);
+			mp = mother()->parents(PMod::ANY);
 		}
 		pp.merge(mp);
 		gp = pp;
@@ -105,12 +105,12 @@ std::set<Person*> Person::ancestors(PMod pmod){
 	std::set<Person*> a;
 	if(pmod == PMod::PATERNAL){
 		if(father() != nullptr){
-		a = betterAncestors(father());
+			a = betterAncestors(father());
 		}
 	}
 	else if(pmod == PMod::MATERNAL){
 		if(mother() != nullptr){
-		 a = betterAncestors(mother());
+		 	a = betterAncestors(mother());
 		}
 	}
 	else{
@@ -155,20 +155,20 @@ std::set<Person*> Person::aunts(PMod pmod, SMod smod){
         std::set<Person*> aunt;
         if(pmod == PMod::PATERNAL){
                 if(father() != nullptr){
-                da = father()->sisters(PMod::ANY,smod);
+                	da = father()->sisters(PMod::ANY,smod);
                 }
         }
         else if(pmod == PMod::MATERNAL){
                 if(mother() != nullptr){
-                ma = mother()->sisters(PMod::ANY,smod);
+                	ma = mother()->sisters(PMod::ANY,smod);
                 }
         }
         else{
                 if(father() != nullptr){
-                da = father()->sisters(PMod::ANY,smod);
+                	da = father()->sisters(PMod::ANY,smod);
                 }
                 if(mother() != nullptr){
-                ma = mother()->sisters(PMod::ANY,smod);
+                	ma = mother()->sisters(PMod::ANY,smod);
                 }
         }
         aunt.merge(ma);
@@ -182,20 +182,20 @@ std::set<Person*> Person::brothers(PMod pmod, SMod smod){
         std::set<Person*> son;
         if(pmod == PMod::PATERNAL){
                 if(father() != nullptr){
-                dadKids = father()->sons();
+                	dadKids = father()->sons();
                 }
         }
         else if(pmod == PMod::MATERNAL){
                 if(mother() != nullptr){
-                momKids = mother()->sons();
+                	momKids = mother()->sons();
                 }
         }
         else{
                 if(father() != nullptr){
-                dadKids = father()->sons();
+                	dadKids = father()->sons();
                 }
                 if(mother() != nullptr){
-                momKids = mother()->sons();
+                	momKids = mother()->sons();
                 }
         }
         son.merge(dadKids);
@@ -211,20 +211,20 @@ std::set<Person*> Person::cousins(PMod pmod, SMod smod){
         std::set<Person*> cousins;
         if(pmod == PMod::PATERNAL){
                 if(father() != nullptr){
-                ds = father()->siblings(PMod::ANY,smod);
+                	ds = father()->siblings(PMod::ANY,smod);
                 }
         }
         else if(pmod == PMod::MATERNAL){
                 if(mother() != nullptr){
-                ms = mother()->siblings(PMod::ANY,smod);
+                	ms = mother()->siblings(PMod::ANY,smod);
                 }
         }
         else{
                 if(father() != nullptr){
-                ds = father()->siblings(PMod::ANY,smod);
+                	ds = father()->siblings(PMod::ANY,smod);
                 }
                 if(mother() != nullptr){
-                ms = mother()->siblings(PMod::ANY,smod);
+                	ms = mother()->siblings(PMod::ANY,smod);
                 }
         }
         ps.merge(ms);
@@ -238,7 +238,7 @@ std::set<Person*> Person::daughters(){
 	std::set<Person*> d;
         for(auto child: pchildren){
                 if(child->gender() == Gender::FEMALE){
-                d.insert(child);
+                	d.insert(child);
                 }
         }
         return d;
@@ -273,25 +273,25 @@ std::set<Person*> Person::grandfathers(PMod pmod){
         if(pmod == PMod::PATERNAL){
                  std::set<Person*> pp;
                  if(father() != nullptr){
-                 pp = father()->parents(PMod::PATERNAL);
+                 	pp = father()->parents(PMod::PATERNAL);
                  }
                  gf = pp;
         }
         else if (pmod == PMod::MATERNAL){
                 std::set<Person*> mp;
                 if(mother() != nullptr){
-                mp = mother()->parents(PMod::PATERNAL);
+                	mp = mother()->parents(PMod::PATERNAL);
                 }
                 gf = mp;
         }
         else{
                 std::set<Person*> pp;
                 if(father() != nullptr){
-                pp = father()->parents(PMod::PATERNAL);
+                	pp = father()->parents(PMod::PATERNAL);
                 }
                 std::set<Person*> mp;
                 if(mother() != nullptr){
-                mp = mother()->parents(PMod::PATERNAL);
+                	mp = mother()->parents(PMod::PATERNAL);
                 }
                 pp.merge(mp);
                 gf = pp;
@@ -303,25 +303,25 @@ std::set<Person*> Person::grandmothers(PMod pmod){
         if(pmod == PMod::PATERNAL){
                  std::set<Person*> pp;
                  if(father() != nullptr){
-                 pp = father()->parents(PMod::MATERNAL);
+                 	pp = father()->parents(PMod::MATERNAL);
                  }
                  gm = pp;
         }
         else if (pmod == PMod::MATERNAL){
                 std::set<Person*> mp;
                 if(mother() != nullptr){
-                mp = mother()->parents(PMod::MATERNAL);
+                	mp = mother()->parents(PMod::MATERNAL);
                 }
                 gm = mp;
         }
         else{
                 std::set<Person*> pp;
                 if(father() != nullptr){
-                pp = father()->parents(PMod::MATERNAL);
+                	pp = father()->parents(PMod::MATERNAL);
                 }
                 std::set<Person*> mp;
                 if(mother() != nullptr){
-                mp = mother()->parents(PMod::MATERNAL);
+                	mp = mother()->parents(PMod::MATERNAL);
                 }
                 pp.merge(mp);
                 gm = pp;
@@ -359,20 +359,20 @@ std::set<Person*> Person::siblings(PMod pmod, SMod smod){
         std::set<Person*> sibs;
         if(pmod == PMod::PATERNAL){
                 if(father() != nullptr){
-                dadKids = father()->children();
+                	dadKids = father()->children();
                 }
         }
         else if(pmod == PMod::MATERNAL){
                 if(mother() != nullptr){
-                momKids = mother()->children();
+                	momKids = mother()->children();
                 }
         }
         else{
                 if(father() != nullptr){
-                dadKids = father()->children();
+                	dadKids = father()->children();
                 }
                 if(mother() != nullptr){
-                momKids = mother()->children();
+                	momKids = mother()->children();
                 }
         }
         sibs.merge(dadKids);
@@ -416,20 +416,20 @@ std::set<Person*> Person::sisters(PMod pmod, SMod smod){
         std::set<Person*> sis;
         if(pmod == PMod::PATERNAL){
                 if(father() != nullptr){
-                dadKids = father()->daughters();
+                	dadKids = father()->daughters();
                 }
         }
         else if(pmod == PMod::MATERNAL){
                 if(mother() != nullptr){
-                momKids = mother()->daughters();
+                	momKids = mother()->daughters();
                 }
         }
         else{
                 if(father() != nullptr){
-                dadKids = father()->daughters();
+                	dadKids = father()->daughters();
                 }
                 if(mother() != nullptr){
-                momKids = mother()->daughters();
+                	momKids = mother()->daughters();
                 }
         }
         sis.merge(dadKids);
@@ -442,7 +442,7 @@ std::set<Person*> Person::sons(){
 	std::set<Person*> s;
 	for(auto child: pchildren){
 		if(child->gender() == Gender::MALE){
-		s.insert(child);
+			s.insert(child);
 		}
 	}	
         return s;
@@ -453,20 +453,20 @@ std::set<Person*> Person::uncles(PMod pmod, SMod smod){
         std::set<Person*> unc;
         if(pmod == PMod::PATERNAL){
                 if(father() != nullptr){
-                db = father()->brothers(PMod::ANY,smod);
+                	db = father()->brothers(PMod::ANY,smod);
                 }
         }
         else if(pmod == PMod::MATERNAL){
                 if(mother() != nullptr){
-                mb = mother()->brothers(PMod::ANY,smod);
+                	mb = mother()->brothers(PMod::ANY,smod);
                 }
         }
         else{
                 if(father() != nullptr){
-                db = father()->brothers(PMod::ANY,smod);
+                	db = father()->brothers(PMod::ANY,smod);
                 }
                 if(mother() != nullptr){
-                mb = mother()->brothers(PMod::ANY,smod);
+                	mb = mother()->brothers(PMod::ANY,smod);
                 }
         }
         unc.merge(mb);
