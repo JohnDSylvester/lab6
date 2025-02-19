@@ -1,4 +1,4 @@
-	#include "Person.h"
+#include "Person.h"
 
 // Person Member Functions
 std::set<Person*> betterAncestors(Person* p);
