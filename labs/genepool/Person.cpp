@@ -3,6 +3,9 @@
 // Person Member Functions
 std::set<Person*> betterAncestors(Person* p);
 std::set<Person*> halfCheck(std::set<Person*> people, std::string name, Person* f, Person* m, SMod smod);
+
+Person() : pname(""), pgender(Gender::ANY), pmother(nullptr), pfather(nullptr) {}
+
 Person::Person(std::string n, std::string g, Person* m, Person* f){
 	pname = n;
 	pmother = m;
