@@ -22,7 +22,7 @@ class Person {
 
 public:
   // Constructor
-  	Person() : pname(""), pgender(Gender::ANY), pmother(nullptr), pfather(nullptr);
+  	Person();
   	Person(std::string n,std::string g,Person* m,Person* f);
   // Destructor?
 
